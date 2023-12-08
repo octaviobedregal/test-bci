@@ -1,0 +1,113 @@
+openapi: 3.0.3
+info:
+  title: API de usuarios
+  description: |-
+    API de usuarios
+  version: 1.0.0
+servers:
+  - url: /api/v1
+tags:
+  - name: user
+    description: Operations about user
+paths:
+  /user:
+    post:
+      tags:
+        - user
+      summary: Crea usuarios genericos
+      description: Crea usuarios genericos
+      operationId: createUser
+      security:
+        - bearerAuth: []
+      requestBody:
+        description: Created user object
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserRequest'
+      responses:
+        '200':
+          description: 'Procesado con exito.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/userResponse'
+        '409':
+          description: 'Error funcional.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        '500':
+          description: 'Error de servidor.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    UserRequest:
+      required:
+        - name
+        - email
+        - password
+      type: object
+      properties:
+        name:
+          type: string
+          example: octavio
+        email:
+          type: string
+          example: octavio@mail.com
+          pattern: ^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$
+        password:
+          type: string
+          example: 'hunter2'
+        phones:
+          type: array
+          items:
+            $ref: '#/components/schemas/phoneRequest'
+    phoneRequest:
+      type: object
+      properties:
+        number:
+          type: string
+          example: '1234567'
+        citycode:
+          type: string
+          example: '1'
+        contrycode:
+          type: string
+          example: '57'
+    userResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        created:
+          type: string
+          example: '01/01/0001 00:00:00'
+        modified:
+          type: string
+          example: '01/01/0001 00:00:00'
+        last_login:
+          type: string
+          example: 'octavio@gmail.com'
+        token:
+          type: string
+          example: 'uui'
+        isactive:
+          type: boolean
+          example: true
+    error:
+      type: object
+      properties:
+        mensaje:
+          type: string
+          example: 'mensaje de error'
