@@ -2,8 +2,11 @@
 
 ##  DATOS DE CONFIGURACIÓN
 spring.datasource.url=jdbc:h2:mem:testdb
+
 spring.datasource.username=sa
+
 spring.datasource.password=password
+
 server.port=8081
 
 ## PASOS PARA CREAR UN USUARIO
